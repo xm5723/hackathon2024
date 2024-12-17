@@ -23,6 +23,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-string connString = builder.Configuration.GetConnectionString("");
-builder.Services.AddDbContext<FitInBackEndContext>(options => options.UseSqlServer(connString));
