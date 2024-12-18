@@ -1,27 +1,6 @@
-<!-- <div class="login-container">
-  <h2>Welcome to FitIn</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="input-group">
-      <label for="username">Username</label>
-      <input id="username" formControlName="username" placeholder="Enter your username" />
-    </div>
-
-    <div class="input-group">
-      <label for="password">Password</label>
-      <input id="password" formControlName="password" type="password" placeholder="Enter your password" />
-    </div>
-
-    <div class="actions">
-      <button type="submit" [disabled]="loginForm.invalid" class="login-button">Login</button>
-      <p class="register-text">Don't have an account? <a href="#" (click)="goToRegister()">Register</a></p>
-    </div>
-  </form>
-
-  <div *ngIf="message" class="message">{{ message }}</div>
-</div> -->
-
 <div>
-  <h2>Login</h2>
+  <h2>Welcome to Fit In!</h2>
+  <h3>Login Below to get started</h3>
 
   <!-- Display error message -->
   <div *ngIf="errorMessage" style="color: red;">
@@ -29,7 +8,7 @@
   </div>
 
   <!-- Reactive form -->
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
     <!-- Email input -->
     <input
       type="email"
@@ -58,8 +37,12 @@
 
     <!-- Submit button -->
     <button type="submit" [disabled]="loginForm.invalid">Login</button>
+    
+    <div class="signup-button">
+      <br>
+      <h4>Don't have an account?</h4>
+        <button (click)="goToSignup()">Sign Up</button>
+    </div>
   </form>
-
-  <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
 </div>
 

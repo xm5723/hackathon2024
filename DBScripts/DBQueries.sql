@@ -1,5 +1,5 @@
 CREATE TABLE CandidateProfile (
-    id INT IDENTITY(1,1) PRIMARY KEY,
+    uid NVARCHAR(50) PRIMARY KEY,
     first_name NVARCHAR(50) NOT NULL,
     last_name NVARCHAR(50) NOT NULL,
     email NVARCHAR(50) NOT NULL UNIQUE,
@@ -8,19 +8,20 @@ CREATE TABLE CandidateProfile (
     fun_fact NVARCHAR(200)
 );
 
-INSERT INTO dbo.CandidateProfile (first_name, last_name, email, education, year_of_gradution, fun_fact) 
-VALUES 
-('John', 'Doe', 'john.doe@example.com', 'Bachelor of Science', 2020, 'Loves hiking.'),
-('Jane', 'Smith', 'jane.smith@example.com', 'Master of Arts', 2019, 'Plays the guitar.'),
-('Emily', 'Johnson', 'emily.johnson@example.com', 'PhD in Physics', 2021, 'Enjoys painting.'),
-('Michael', 'Brown', 'michael.brown@example.com', 'Bachelor of Engineering', 2018, 'Avid traveler.'),
-('Sarah', 'Davis', 'sarah.davis@example.com', 'Master of Business Administration', 2022, 'Loves cooking.');
-
--- Drop Table [dbo].[CandidateProfile]
+INSERT INTO CandidateProfile (uid, first_name, last_name, email, education, year_of_gradution, fun_fact) 
+VALUES (
+    '5f73CMP9lQdRmTLugdDP6xbGhS72', 
+    'Malkiel', 
+    'Asher', 
+    'tdevr3i@gmail.com', 
+    'Bachelor of Science in Computer Engineering', 
+    '2021', 
+    'I once built a working robot from old car parts.'
+);
 
 CREATE TABLE Skills (
     id INT PRIMARY KEY IDENTITY(1,1),
-    skill NVARCHAR(100)
+    skill_name NVARCHAR(100)
 );
 
 INSERT INTO Skills (skill) VALUES
@@ -125,51 +126,58 @@ INSERT INTO Skills (skill) VALUES
 ('Conflict Management'),
 ('Public Speaking');
 
+CREATE TABLE Managers (
+    uid NVARCHAR(50) PRIMARY KEY,
+    manager_name NVARCHAR(100) NOT NULL,
+    manager_email NVARCHAR(100) NOT NULL
+);
 
 CREATE TABLE Teams (
     id INT IDENTITY(1,1) PRIMARY KEY,
     team_name NVARCHAR(100) NOT NULL,
-    manager_name NVARCHAR(100) NOT NULL,
+    manager_uid NVARCHAR(50) NOT NULL,
     team_location NVARCHAR(100),
     team_members NVARCHAR(MAX),
     projects NVARCHAR(MAX),
     organization NVARCHAR(50),
-    net_promoter_score DECIMAL(5,2)
+    net_promoter_score DECIMAL(5,2),
+    FOREIGN KEY (manager_uid) REFERENCES Managers(uid)
 );
 
-INSERT INTO Teams (team_name, manager_name, team_location, team_members, projects, organization, net_promoter_score)
-VALUES
-('Core Banking Team', 'John Doe', 'Seneca One', 'Alice Johnson, Bob Smith, Charlie Brown', 'Core Banking Platform Modernization', 'Digital Banking Services', 8.75),
-('Mobile Solutions Team', 'Jane Smith', 'Remote', 'David Miller, Emma Wilson, Frank Taylor', 'Mobile Banking App Enhancement', 'Mobile Technology', 9.50),
-('Fraud Detection Unit', 'Michael Johnson', 'Wilmington Plaza', 'Grace Lee, Henry Thompson', 'Fraud Monitoring System Upgrade', 'Risk & Compliance', 7.80),
-('Data Analytics Group', 'Sarah Lee', 'Lafayette Court', 'Liam Davis, Olivia Clark, Noah Martin', 'Customer Data Insights Platform', 'Data Science & Analytics', 9.10),
-('Cybersecurity Team', 'William Brown', 'Remote', 'Sophia Martinez, James Carter', 'Cyber Threat Detection System', 'Cybersecurity', 8.25),
-('Payment Solutions Team', 'Emily Davis', 'Seneca One', 'Lucas White, Mia Adams, Charlotte Scott', 'Real-Time Payments Infrastructure', 'Payments Technology', 8.60),
-('Wealth Management IT', 'Andrew Wilson', 'Lafayette Court', 'Isabella Turner, Ethan Cooper, Jack Evans', 'Portfolio Management Platform', 'Wealth Management Technology', 7.90),
-('Infrastructure Ops Team', 'Ella Martinez', 'Wilmington Plaza', 'Ava Bell, Benjamin Rivera', 'Cloud Migration for Infrastructure', 'IT Operations', 9.00),
-('Customer Service IT', 'Daniel Clark', 'Remote', 'Harper Brooks, Alexander Hughes, Amelia Howard', 'AI-Powered Chatbot Development', 'Customer Technology Services', 9.30),
-('Innovation Lab', 'Sophia Harris', 'Seneca One', 'Mason Reed, Evelyn Perry, Elijah Morgan', 'Blockchain-Based Settlements', 'Innovation & Strategy', 8.95);
-
-
-CREATE TABLE CandidateInterestLookup(
-    candidate_id INT not null,
-    skill_id INT not null,
-	PRIMARY KEY (candidate_id, skill_id),
-	FOREIGN KEY (candidate_id) 
-        REFERENCES CandidateProfile(id),
-	FOREIGN KEY (skill_id) 
-        REFERENCES Skills(id)
+INSERT INTO Teams (team_name, manager_uid, team_location, team_members, projects, organization, net_promoter_score) 
+VALUES (
+    'Banking Innovators', 
+    'lfHZQ8gEAAQNBP0VddJ9YQ79x6A3', 
+    'Seneca One', 
+    'Alice Johnson, Bob Smith, Charlie Brown, Diana Prince', 
+    'Digital Wallet Integration, AI Fraud Detection', 
+    'Consumer Technology', 
+    92.3
 );
 
-CREATE TABLE candidate_skill_lookup(
-    candidate_id INT,
+
+CREATE TABLE TeamSkill (
     team_id INT,
-    skill_id INT not null,
-    PRIMARY KEY (candidate_id, team_id, skill_id),
-   FOREIGN KEY (candidate_id) 
-        REFERENCES CandidateProfile(id),
-   FOREIGN KEY (team_id) 
-        REFERENCES team(id),
-   FOREIGN KEY (skill_id) 
-        REFERENCES Skills(id)
+    skill_id INT,
+    skill_level NVARCHAR(50),
+    PRIMARY KEY (team_id, skill_id),
+    FOREIGN KEY (team_id) REFERENCES Teams(id),
+    FOREIGN KEY (skill_id) REFERENCES Skill(id)
 );
+
+CREATE TABLE CandidateSkill (
+    candidate_id NVARCHAR(50),
+    skill_id INT,
+    skill_level NVARCHAR(50),
+    PRIMARY KEY (candidate_id, skill_id),
+    FOREIGN KEY (candidate_id) REFERENCES CandidateProfile(uid),
+    FOREIGN KEY (skill_id) REFERENCES Skill(id)
+);
+
+INSERT INTO CandidateSkills (candidate_id, skill_id, skill_level) 
+VALUES 
+('5f73CMP9lQdRmTLugdDP6xbGhS72', 1, 'Expert'),
+('5f73CMP9lQdRmTLugdDP6xbGhS72', 2, 'Intermediate'),
+('5f73CMP9lQdRmTLugdDP6xbGhS72', 3, 'Beginner'),
+('5f73CMP9lQdRmTLugdDP6xbGhS72', 4, 'Advanced'),
+('5f73CMP9lQdRmTLugdDP6xbGhS72', 5, 'Expert');
