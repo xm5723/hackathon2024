@@ -151,3 +151,25 @@ VALUES
 ('Innovation Lab', 'Sophia Harris', 'Seneca One', 'Mason Reed, Evelyn Perry, Elijah Morgan', 'Blockchain-Based Settlements', 'Innovation & Strategy', 8.95);
 
 
+CREATE TABLE CandidateInterestLookup(
+    candidate_id INT not null,
+    skill_id INT not null,
+	PRIMARY KEY (candidate_id, skill_id),
+	FOREIGN KEY (candidate_id) 
+        REFERENCES CandidateProfile(id),
+	FOREIGN KEY (skill_id) 
+        REFERENCES Skills(id)
+);
+
+CREATE TABLE candidate_skill_lookup(
+    candidate_id INT,
+    team_id INT,
+    skill_id INT not null,
+    PRIMARY KEY (candidate_id, team_id, skill_id),
+   FOREIGN KEY (candidate_id) 
+        REFERENCES CandidateProfile(id),
+   FOREIGN KEY (team_id) 
+        REFERENCES team(id),
+   FOREIGN KEY (skill_id) 
+        REFERENCES Skills(id)
+);
