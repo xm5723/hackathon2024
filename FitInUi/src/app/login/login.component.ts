@@ -49,6 +49,9 @@ export class LoginComponent {
           console.log('Login successful', response);
           this.errorMessage = "";
           // Handle successful login (e.g., store token, navigate to dashboard)
+
+          // Navigate to the Team Page after successful login
+          this.router.navigate(['/team']);
         },
         (error : any) => {
           console.error('Login failed', error);
