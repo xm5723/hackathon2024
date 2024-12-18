@@ -2,10 +2,10 @@
 
 namespace Hackathon2024.Objects
 {
-    public class Profile
+    public class CandidateProfile
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonPropertyName("first_name")]
         public string FirstName { get; set; }
@@ -18,7 +18,6 @@ namespace Hackathon2024.Objects
 
         [JsonPropertyName("education")]
         public string Education { get; set; }
-
 
         [JsonPropertyName("year_of_gradution")]
         public string YearOfGradution { get; set; }
