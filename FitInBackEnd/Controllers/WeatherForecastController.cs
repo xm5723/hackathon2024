@@ -51,7 +51,7 @@ namespace Hackathon2024.Controllers
                 {
                     profiles.Add(new Profile
                     {
-                        Id = reader.GetInt32(0),
+                        Id = reader.GetString(0),
                         FirstName = reader.GetString(1),
                         LastName = reader.GetString(2),
                         Email = reader.GetString(3),

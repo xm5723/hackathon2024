@@ -16,6 +16,20 @@ h2 {
   color: #333;
 }
 
+h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+h4 {
+  text-align: center;
+  margin-bottom: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
 /* Styling input fields */
 input {
   width: 100%;
@@ -45,6 +59,17 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+signup-button{
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
 /* Hover effect for the button */
 button:hover {
@@ -64,7 +89,6 @@ p {
   margin-top: 5px;
 }
 
-/* Align the "Sign up" link at the bottom */
 p a {
   color: #007bff;
   text-decoration: none;
@@ -74,7 +98,6 @@ p a:hover {
   text-decoration: underline;
 }
 
-/* Make the error message smaller and less intrusive */
 div {
   margin-bottom: 15px;
 }
