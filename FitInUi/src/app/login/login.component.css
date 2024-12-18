@@ -1,0 +1,117 @@
+/* Centering the form and adding spacing */
+form {
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+h3 {
+  text-align: center;
+  margin-bottom: 16px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+h4 {
+  text-align: center;
+  margin-bottom: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Styling input fields */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+/* Highlight input fields when invalid */
+input.is-invalid {
+  border-color: #e74c3c;
+}
+
+/* Submit button styling */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+signup-button{
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Disabled button */
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Error message styling */
+p {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+div {
+  margin-bottom: 15px;
+}
+
+/* Adjust form input borders when invalid */
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Make form more responsive for smaller screens */
+@media (max-width: 480px) {
+  form {
+    width: 90%;
+    padding: 15px;
+  }
+}
