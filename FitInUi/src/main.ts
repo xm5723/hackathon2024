@@ -1,15 +1,18 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, Route } from '@angular/router';
+import { provideRouter, Routes } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { LoginComponent } from './app/login/login.component';
 import { SignupComponent } from './app/signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TeamComponent } from './app/team/team.component';
+import { CandidateComponent } from './app/candidate/candidate.component';
 
-const routes: Route[] = [
+export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'team', component: TeamComponent },
+  { path: 'candidate', component: CandidateComponent  }
 ];
 
 bootstrapApplication(AppComponent, {
