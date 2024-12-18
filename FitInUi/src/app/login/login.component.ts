@@ -23,9 +23,24 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
   data: any;
+  error: boolean | undefined;
 
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthService) {
     // Create a reactive form with email and password controls
+    this.authService.getUidData().subscribe(
+      (response) => {
+        console.log('Received data:', response);
+        this.data = response; // Store the received data
+        this.error = false; // Reset any error state
+        console.log(this.error);
+      },
+      (error) => {
+        console.error('Error:', error);
+        this.error = true; // Set the error flag to true in case of failure
+        console.log(this.error);
+      }
+    );
+    
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],

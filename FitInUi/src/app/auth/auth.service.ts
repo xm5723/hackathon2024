@@ -13,7 +13,7 @@ const auth = getAuth(app);
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   signUp(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -23,8 +23,8 @@ export class AuthService {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  private apiUrl = 'http://localhost:5185/WeatherForecast';
-  // getUidData(): Observable<any> {
-  //   return this.http.get(this.apiUrl);
-  // }
+  private apiUrl = 'http://localhost:5185/Candidate/GetAllProfiles';
+  getUidData(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
 }

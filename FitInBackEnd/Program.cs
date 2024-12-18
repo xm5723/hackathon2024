@@ -27,7 +27,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors("AllowLoaclhost");
+app.UseCors("AllowLocalhost");
 app.MapControllers();
 
 app.Run();
