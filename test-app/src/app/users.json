@@ -1,0 +1,7 @@
+[
+    { "name": "John Doe", "role": "Candidate", "email": "john.doe@example.com" },
+    { "name": "Jane Smith", "role": "Team Member", "email": "jane.smith@example.com" },
+    { "name": "Alice Johnson", "role": "Candidate", "email": "alice.johnson@example.com" },
+    { "name": "Bob Brown", "role": "Team Member", "email": "bob.brown@example.com" }
+  ]
+  
