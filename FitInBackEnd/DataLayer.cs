@@ -1,5 +1,4 @@
 ﻿using Hackathon2024.Objects;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -129,11 +128,11 @@ namespace Hackathon2024
 
                 candidatesWithSkills = candidateSkills
                     .GroupBy(i => i.CandidateId)
-                    .Select(i => new CandidateWithSkills() 
-                        { 
-                            CandidateId = i.Key,
-                            Skills = i
-                        }
+                    .Select(i => new CandidateWithSkills()
+                    {
+                        CandidateId = i.Key,
+                        Skills = i
+                    }
                     ).ToList();
             }
             await conn.CloseAsync();
@@ -176,15 +175,15 @@ namespace Hackathon2024
             return profiles;
         }
 
-        public async Task<TeamProfile?> GetTeamProfile(string teamId)
+        public async Task<TeamProfile?> GetTeamProfile(string managerId)
         {
             TeamProfile? teamProfile = null;
 
             using var conn = new SqlConnection(connString);
             await conn.OpenAsync();
 
-            var command = new SqlCommand("SELECT * FROM Teams WHERE id = @Id", conn);
-            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.VarChar) { Value = teamId });
+            var command = new SqlCommand("SELECT * FROM Teams WHERE manager_uid = @Id", conn);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.VarChar) { Value = managerId });
             using SqlDataReader reader = await command.ExecuteReaderAsync();
 
             if (reader.HasRows)
@@ -217,7 +216,7 @@ namespace Hackathon2024
             using var conn = new SqlConnection(connString);
             await conn.OpenAsync();
 
-            var command = new SqlCommand("SELECT * FROM TeamSkill WHERE team_id = @Id", conn);
+            var command = new SqlCommand("SELECT TeamSkill.team_id, TeamSkill.skill_id, Skill.skill_name, TeamSkill.skill_level FROM TeamSkill JOIN Skill ON Skill.id = TeamSkill.skill_id WHERE TeamSkill.team_id = @Id", conn);
             command.Parameters.Add(new SqlParameter("@Id", SqlDbType.VarChar) { Value = teamId });
             using SqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -229,7 +228,8 @@ namespace Hackathon2024
                     {
                         TeamId = reader.GetInt32(0),
                         SkillId = reader.GetInt32(1),
-                        SkillLevel = reader.GetInt32(2)
+                        SkillName = reader.GetString(2),
+                        SkillLevel = reader.GetInt32(3)
                     });
                 }
             }
