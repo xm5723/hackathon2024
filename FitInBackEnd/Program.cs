@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<DataLayer>();
+builder.Services.AddSingleton<BusinessLogic>();
 
 builder.Services.AddCors(options =>
 {

@@ -10,12 +10,14 @@ namespace Hackathon2024.Controllers
     public class TeamController : ControllerBase
     {
         private readonly DataLayer _dataLayer;
+        private readonly BusinessLogic _businessLogic;
         private readonly ILogger<TeamController> _logger;
 
-        public TeamController(ILogger<TeamController> logger, DataLayer dataLayer)
+        public TeamController(ILogger<TeamController> logger, DataLayer dataLayer, BusinessLogic businessLogic)
         {
             _dataLayer = dataLayer;
             _logger = logger;
+            _businessLogic = businessLogic;
         }
 
         [HttpGet("GetAllProfiles")]
@@ -31,48 +33,15 @@ namespace Hackathon2024.Controllers
         }
 
         [HttpGet("GetSkillsById/{id}")]
-        public async Task<IEnumerable<TeamSkill>> GetSkillsById(string id)
+        public async Task<IEnumerable<TeamSkill>> GetSkillsById(int id)
         {
             return await _dataLayer.GetTeamSkills(id);
         }
 
         [HttpGet("FindCandidatesById/{id}")]
-        public async Task<IEnumerable<CandidateAnalysisSummary>> FindCandidatesById(string id, int? maxCandidates = 10)
+        public async Task<IEnumerable<CandidateAnalysisSummary>> FindCandidatesById(int id, int? maxCandidates = 10)
         {
-            // Note:  I don't normally put this much logic in a contoller action, but it's a hackathon...  We're not graded!
-            var summaries = new List<CandidateAnalysisSummary>();
-
-            // Get the skills for this team and create TeamWithSkills.
-            var team = new TeamWithSkills() { 
-                TeamId = id,
-                Skills = await _dataLayer.GetTeamSkills(id)
-            };
-
-            // Call DB to get all CandidateWithSkills
-            var candidates = await _dataLayer.GetAllCandidatesWithSkills();
-
-            // Do analysis
-            var results = BusinessLogic.Analyze([team], candidates);
-
-            // Look through the results and get the desired data for the result set.
-            foreach (var result in results)
-            {
-                var candidate = await _dataLayer.GetCandidateProfile(result.Candidate.CandidateId);
-
-                summaries.Add(new CandidateAnalysisSummary()
-                {
-                    CandidateName = candidate != null ? $"{candidate?.FirstName} {candidate?.LastName}" : "Candidate Record Missing",
-                    CandidateId = result.Candidate.CandidateId,
-                    Score = result.Score
-                });
-
-                if (maxCandidates.HasValue && summaries.Count >= maxCandidates.Value)
-                {
-                    break;
-                }
-            }
-
-            return summaries;
+            return await _businessLogic.MatchTeamWithCandidates(id, maxCandidates);
         }
     }
 }

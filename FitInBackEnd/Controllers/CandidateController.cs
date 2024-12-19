@@ -10,11 +10,13 @@ namespace Hackathon2024.Controllers
     public class CandidateController : ControllerBase
     {
         private readonly DataLayer _dataLayer;
+        private readonly BusinessLogic _businessLogic;
         private readonly ILogger<CandidateController> _logger;
 
-        public CandidateController(DataLayer dataLayer, ILogger<CandidateController> logger)
+        public CandidateController(DataLayer dataLayer, BusinessLogic businessLogic, ILogger<CandidateController> logger)
         {
             _dataLayer = dataLayer;
+            _businessLogic = businessLogic;
             _logger = logger;
         }
 
@@ -34,6 +36,12 @@ namespace Hackathon2024.Controllers
         public async Task<IEnumerable<CandidateSkill>> GetSkillsById(string id)
         {
             return await _dataLayer.GetCandidateSkills(id);
+        }
+
+        [HttpGet("FindTeamsById/{id}")]
+        public async Task<IEnumerable<TeamAnalysisSummary>> FindTeamsById(string id, int? maxTeams = 10)
+        {
+            return await _businessLogic.MatchCandidateWithTeams(id, maxTeams);
         }
 
     }

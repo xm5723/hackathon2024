@@ -209,7 +209,7 @@ namespace Hackathon2024
             return teamProfile;
         }
 
-        public async Task<IEnumerable<TeamSkill>> GetTeamSkills(string teamId)
+        public async Task<IEnumerable<TeamSkill>> GetTeamSkills(int teamId)
         {
             var teamSkills = new List<TeamSkill>();
 
@@ -236,6 +236,48 @@ namespace Hackathon2024
             await conn.CloseAsync();
 
             return teamSkills;
+        }
+
+
+        /// <summary>
+        /// TBD:  This needs debugged, sql updated, data pulled, etc.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<TeamWithSkills>> GetAllTeamsWithSkills()
+        {
+            var TeamsWithSkills = new List<TeamWithSkills>();
+
+            using var conn = new SqlConnection(connString);
+            conn.Open();
+
+            var command = new SqlCommand("SELECT TS.*, S.skill_name FROM TeamSkill TS JOIN Skill S ON S.id = TS.skill_id", conn);
+            using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+            if (reader.HasRows)
+            {
+                var TeamSkills = new List<TeamSkill>();
+                while (await reader.ReadAsync())
+                {
+                    TeamSkills.Add(new TeamSkill
+                    {
+                        TeamId = reader.GetInt32(0),
+                        SkillId = reader.GetInt32(1),
+                        SkillLevel = reader.GetInt32(2),
+                        SkillName = reader.GetString(3)
+                    });
+                }
+
+                TeamsWithSkills = TeamSkills
+                    .GroupBy(i => i.TeamId)
+                    .Select(i => new TeamWithSkills()
+                    {
+                        TeamId = i.Key,
+                        Skills = i
+                    }
+                    ).ToList();
+            }
+            await conn.CloseAsync();
+            return TeamsWithSkills;
         }
 
         #endregion
