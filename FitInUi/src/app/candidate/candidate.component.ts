@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'; // <-- Import CommonModule
 
 import { CandidateService } from '../data-service/candidate.service';
 import { Skill, Candidate } from '../interfaces/candidate';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-candidate',
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   imports: [CommonModule]
 })
 export class CandidateComponent {
-constructor(private router: Router) {}
+constructor(private router: Router, private route: ActivatedRoute) {}
   
   private candidateService = inject(CandidateService);
   profile!: Candidate;
@@ -24,20 +24,20 @@ constructor(private router: Router) {}
   candidateDataLoaded: boolean = false;
   
   ngOnInit(): void {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state) {
-      this.uid = navigation.extras.state['uid'];
-    }
+    this.route.queryParams.subscribe(params => {
+      this.uid = params['uid'];
+    });
+    //FallBack just incase
     if (!this.uid) {
       this.uid = "5f73CMP9lQdRmTLugdDP6xbGhS72";
     }
-    console.log(this.uid);
     this.loadCandidate(this.uid);
   }
 
   loadCandidate(uid : string): void {
     this.candidateService.getCandidateById(uid).subscribe((data) => {
       this.profile = data;
+      console.log(this.profile);
       this.candidateDataLoaded = true;
       this.loadCandidateSkills(uid);
     });

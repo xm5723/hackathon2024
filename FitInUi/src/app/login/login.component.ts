@@ -58,18 +58,18 @@ export class LoginComponent {
       );
     }
   }
-  determinePage(uid: any) {
+  determinePage(uid: string) {
     if (uid) {
       // Navigate to the next route with the UID as a parameter
       this.authService.determineProfileType(uid).then(
         (response: any) => {
           this.errorMessage = "";
           if(response == "Candidate") {
-            this.router.navigate(['/candidate'], { state: { uid } });
+            this.router.navigate(['/candidate'], { queryParams: { uid: uid } });
+            // this.router.navigate(['/candidate'], { state: { uid } });
           }else{
-            this.router.navigate(['/team'], { state: { uid } });   
-            //TODO: uid not passing
-            console.log(uid);
+            this.router.navigate(['/team'], { queryParams: { uid: uid } });
+            // this.router.navigate(['/team'], { state: { uid } });   
           }
         },
         (error : any) => {
