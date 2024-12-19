@@ -209,6 +209,40 @@ namespace Hackathon2024
             return teamProfile;
         }
 
+        public async Task<TeamProfile?> GetTeamProfile(int teamId)
+        {
+            TeamProfile? teamProfile = null;
+
+            using var conn = new SqlConnection(connString);
+            await conn.OpenAsync();
+
+            var command = new SqlCommand("SELECT * FROM Teams WHERE id = @Id", conn);
+            command.Parameters.Add(new SqlParameter("@Id", SqlDbType.VarChar) { Value = teamId });
+            using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+            if (reader.HasRows)
+            {
+                teamProfile = new TeamProfile();
+
+                while (await reader.ReadAsync())
+                {
+                    teamProfile = new TeamProfile
+                    {
+                        Id = reader.GetInt32(0),
+                        TeamName = reader.GetString(1),
+                        ManagerUId = reader.GetString(2),
+                        TeamLocation = reader.GetString(3),
+                        TeamMembers = reader.GetString(4),
+                        Projects = reader.GetString(5),
+                        Organization = reader.GetString(6),
+                        NetPromoterScore = reader.GetDecimal(7)
+                    };
+                }
+            }
+            await conn.CloseAsync();
+            return teamProfile;
+        }
+
         public async Task<IEnumerable<TeamSkill>> GetTeamSkills(int teamId)
         {
             var teamSkills = new List<TeamSkill>();

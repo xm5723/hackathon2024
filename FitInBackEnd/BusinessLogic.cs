@@ -75,12 +75,11 @@ namespace Hackathon2024
             // Look through the results and get the desired data for the result set.
             foreach (var result in results)
             {
-                // TBD: Need DL operation to get TeamProfile by Id (something we have in the results)
-                //var team = await _dataLayer.GetTeamProfile(result.Team.mana);
+                var team = await _dataLayer.GetTeamProfile(result.Team.TeamId);
 
                 summaries.Add(new TeamAnalysisSummary()
                 {
-                    TeamName = "Team Record Missing",
+                    TeamName = team.TeamName,
                     TeamId = result.Team.TeamId,
                     Score = result.Score
                 });
