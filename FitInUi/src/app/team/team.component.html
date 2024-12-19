@@ -10,6 +10,7 @@
           <p>Organization: {{ team.organization }}</p>
           <p>Net Promoter Score: {{ team.net_promoter_score }}</p>
         </div>
+        <button (click)="gotoHome()">Log out</button>
         <div *ngIf="!teamDataLoaded">
           <p>Loading...</p>
         </div> 

@@ -56,19 +56,10 @@ export class TeamComponent {
       this.candidates = data;
       this.candidatesDataLoaded = true;
     });
+    }
+    
+  gotoHome() {
+    this.router.navigate(['']);
   }
 
-
-  // List of candidates available
-  // candidates = [
-  //   { name: 'Jane Smith', role: 'Candidate', skills: 'JavaScript, Angular' },
-  //   { name: 'Alice Johnson', role: 'Candidate', skills: 'Python, Django' },
-  //   { name: 'Bob Brown', role: 'Candidate', skills: 'Java, Spring Boot' },
-  //   { name: 'Charlie Davis', role: 'Candidate', skills: 'React, Node.js' },
-  //   { name: 'Eva White', role: 'Candidate', skills: 'SQL, PostgreSQL' },
-  //   { name: 'John Doe', role: 'Candidate', skills: 'C#, .NET' },
-  // ];
-
-  // Set the selected candidate by default (first candidate)
-  // selectedCandidate = this.candidates[0];
 }

@@ -49,4 +49,8 @@ constructor(private router: Router) {}
       this.skillDataLoaded = true;
     });
   }
+
+  gotoHome() {
+    this.router.navigate(['']);
+  }
 }
