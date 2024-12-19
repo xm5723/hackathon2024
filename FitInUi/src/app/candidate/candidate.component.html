@@ -2,33 +2,23 @@
     <!-- Left side: Profile Information -->
     <div class="profile-section">
       <h2>My Profile</h2>
-      <p>Name: {{ profile.name }}</p>
+      <p>Name: {{ profile.first_name + ' ' + profile.last_name }}</p>
       <p>Education: {{ profile.education }}</p>
-      <p>Year of Graduation: {{ profile.graduationYear }}</p>
-      <p>Fun Fact: {{ profile.funFact }}</p>
-      <p>Skills: {{ profile.skills }}</p>
-      <p>Interests: {{ profile.interests }}</p>
-      <p>Role: {{ profile.role }}</p>
+      <p>Year of Graduation: {{ profile.year_of_graduation }}</p>
+      <p>Fun Fact: {{ profile.fun_fact }}</p>
     </div>
   
-    <!-- Right side: Teams List and Details -->
-    <div class="teams-section">
-      <h2>Available Teams</h2>
-  
-      <!-- Scrollable team list -->
-      <div class="teams-list">
+    <div class="skills-section">  
+      <div class="skills-list">
+        <h2>Team Skills</h2>
         <ul>
-          <!-- Display all teams -->
-          <li *ngFor="let team of teams" (click)="selectedTeam = team" [class.selected]="team === selectedTeam">
-            {{ team.name }}
+          <li *ngFor="let skill of skills" class="skill-item">
+            <div class="skill-details">
+              <span class="skill-name"><strong>Skill Name:</strong> {{ skill.skill_name }}</span>
+              <span class="skill-preference"><strong>Skill Preference:</strong> {{ skill.skill_level }}</span>
+            </div>
           </li>
-        </ul>
-      </div>
-  
-      <!-- Display details of the selected team -->
-      <div class="team-details">
-        <h3>{{ selectedTeam.name }}</h3>
-        <p>{{ selectedTeam.description }}</p>
+        </ul>          
       </div>
     </div>
   </div>

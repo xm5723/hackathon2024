@@ -1,28 +1,71 @@
 <div class="layout-container">
     <!-- Left side: Team Information -->
-    <div class="profile-section">
-      <h2>{{ teamProfile.name }}</h2>
-      <p>Description: {{ teamProfile.description }}</p>
-      <p>Created Year: {{ teamProfile.createdYear }}</p>
-      <p>Specialization: {{ teamProfile.specialization }}</p>
-      <p>Manager: {{ teamProfile.manager }}</p>
+      <div class="profile-section">
+        <div *ngIf="teamDataLoaded">
+          <h2>{{ team.team_name }}</h2>
+          <p>Manager ID: {{ team.manager_uid }}</p>
+          <p>Location: {{ team.team_location }}</p>
+          <p>Members: {{ team.team_members }}</p>
+          <p>Projects: {{ team.projects }}</p>
+          <p>Organization: {{ team.organization }}</p>
+          <p>Net Promoter Score: {{ team.net_promoter_score }}</p>
+        </div>
+        <div *ngIf="!teamDataLoaded">
+          <p>Loading...</p>
+        </div> 
     </div>
-  
-    <!-- Right side: Candidates List and Details -->
-    <div class="candidates-section">
+    <!-- Right side: Skills List and preferences -->
+    <div class="skills-section">  
+      <div class="skills-list">
+        <h2>Team Skills</h2>
+        <ul>
+          <li *ngFor="let skill of skills" class="skill-item">
+            <div class="skill-details">
+              <span class="skill-name"><strong>Skill Name:</strong> {{ skill.skill_name }}</span>
+              <span class="skill-preference"><strong>Skill Preference:</strong> {{ skill.skill_level }}</span>
+            </div>
+          </li>
+        </ul>          
+      </div>
+      <button class="send-request-btn" (click)="calculateTopCandidates()">
+        Calculate Top Candidates
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="candidatesDataLoaded">
+    <div class="candidate-summary">
+      <h2>Candidate Summary</h2>
+    
+      <!-- Table to display candidate data -->
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Candidate Name</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let candidate of candidates">
+            <td>{{ candidate.candidateName }}</td>
+            <td>{{ candidate.score }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Right side: Candidates List and Details -->
+    <!--
+  <div class="candidates-section">
       <h2>Best Fit Candidates</h2>
-  
-      <!-- Scrollable candidates list -->
       <div class="candidates-list">
         <ul>
-          <!-- Display all candidates -->
           <li *ngFor="let candidate of candidates" (click)="selectedCandidate = candidate" [class.selected]="candidate === selectedCandidate">
             {{ candidate.name }}
           </li>
         </ul>
       </div>
-  
-      <!-- Display details of the selected candidate -->
       <div class="candidate-details">
         <h3>{{ selectedCandidate.name }}</h3>
         <p>Role: {{ selectedCandidate.role }}</p>
@@ -30,4 +73,4 @@
       </div>
     </div>
   </div>
-  
+  -->

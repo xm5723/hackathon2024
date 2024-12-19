@@ -9,13 +9,13 @@
     border: 1px solid #ccc;
   }
   
-  .candidates-section {
+  .skills-section {
     width: 45%;
     padding: 20px;
     border: 1px solid #ccc;
   }
   
-  .candidates-list {
+  .skills-list {
     height: 300px; /* Set a fixed height */
     overflow-y: auto; /* Enable vertical scrolling */
     margin-bottom: 20px;
@@ -44,9 +44,108 @@
     background-color: #d3e6f5; /* Highlight the selected candidate */
   }
   
+  .candidates-section {
+    width: 45%;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+
+  .candidates-list {
+    height: 300px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+
   .candidate-details {
     padding: 10px;
     background-color: #f0f0f0;
+    border: 1px solid #ddd;
+  }
+
+  .skills-list {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .skills-list h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .skill-item {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .skill-item:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .skill-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .skill-name, .skill-preference {
+    font-size: 16px;
+    color: #555;
+  }
+  
+
+  .skills-list {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;  /* Centering the text and button */
+  }
+  
+  .skills-list h2 {
+    color: #333;
+  }
+  
+  .send-request-btn {
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px auto;
+    display: block; /* Makes the button a block element to center */
+  }
+  
+  .send-request-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  pre {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
     border: 1px solid #ddd;
   }
   
