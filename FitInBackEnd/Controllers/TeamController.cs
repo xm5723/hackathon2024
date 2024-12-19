@@ -37,8 +37,10 @@ namespace Hackathon2024.Controllers
         }
 
         [HttpGet("FindCandidatesById/{id}")]
-        public async Task<IEnumerable<AnalysisResult>> FindCandidatesById(string id)
+        public async Task<IEnumerable<CandidateAnalysisSummary>> FindCandidatesById(string id, int? maxCandidates = 10)
         {
+            var summaries = new List<CandidateAnalysisSummary>();
+
             // Get the skills for this team and create TeamWithSkills.
             var team = new TeamWithSkills() { 
                 TeamId = id,
@@ -49,7 +51,27 @@ namespace Hackathon2024.Controllers
             var candidates = await _dataLayer.GetAllCandidatesWithSkills();
 
             // Do analysis
-            return BusinessLogic.Analyze([team], candidates);
+            var results = BusinessLogic.Analyze([team], candidates);
+
+            // Look through the results and get the desired data for the result set.
+            foreach (var result in results)
+            {
+                var candidate = await _dataLayer.GetCandidateProfile(result.Candidate.CandidateId);
+
+                summaries.Add(new CandidateAnalysisSummary()
+                {
+                    CandidateName = candidate != null ? $"{candidate?.FirstName} {candidate?.LastName}" : "Candidate Record Missing",
+                    CandidateId = result.Candidate.CandidateId,
+                    Score = result.Score
+                });
+
+                if (maxCandidates.HasValue && summaries.Count >= maxCandidates.Value)
+                {
+                    break;
+                }
+            }
+
+            return summaries;
         }
     }
 }
