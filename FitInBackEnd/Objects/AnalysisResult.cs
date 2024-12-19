@@ -2,8 +2,8 @@
 {
     public class AnalysisResult
     {
-        public string TeamId { get; set; }
-        public string CandidateId { get; set; }
+        public TeamWithSkills Team { get; set; }
+        public CandidateWithSkills Candidate { get; set; }
         public int Score { get; set; }
     }
 }

@@ -94,13 +94,50 @@ namespace Hackathon2024
                     {
                         CandidateId = reader.GetString(0),
                         SkillId = reader.GetInt32(1),
-                        SkillLevel = reader.GetString(2)
+                        SkillLevel = reader.GetInt32(2)
 
                     });
                 }
             }
             await conn.CloseAsync();
             return candidateSkills;
+        }
+
+        public async Task<IEnumerable<CandidateWithSkills>> GetAllCandidatesWithSkills()
+        {
+            var candidatesWithSkills = new List<CandidateWithSkills>();
+
+            using var conn = new SqlConnection(connString);
+            conn.Open();
+
+            var command = new SqlCommand("SELECT * FROM CandidateSkill order by candidate_id", conn);
+            using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+            if (reader.HasRows)
+            {
+                var candidateSkills = new List<CandidateSkill>();
+                while (await reader.ReadAsync())
+                {
+                    candidateSkills.Add(new CandidateSkill
+                    {
+                        CandidateId = reader.GetString(0),
+                        SkillId = reader.GetInt32(1),
+                        SkillLevel = reader.GetInt32(2)
+
+                    });
+                }
+
+                candidatesWithSkills = candidateSkills
+                    .GroupBy(i => i.CandidateId)
+                    .Select(i => new CandidateWithSkills() 
+                        { 
+                            CandidateId = i.Key,
+                            Skills = i
+                        }
+                    ).ToList();
+            }
+            await conn.CloseAsync();
+            return candidatesWithSkills;
         }
 
         #endregion
@@ -192,8 +229,7 @@ namespace Hackathon2024
                     {
                         TeamId = reader.GetInt32(0),
                         SkillId = reader.GetInt32(1),
-                        SkillLevel = reader.GetString(2)
-
+                        SkillLevel = reader.GetInt32(2)
                     });
                 }
             }

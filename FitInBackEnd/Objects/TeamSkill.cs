@@ -11,6 +11,6 @@ namespace Hackathon2024.Objects
         public int SkillId { get; set; }
 
         [JsonPropertyName("skill_level")]
-        public String SkillLevel { get; set; }
+        public int SkillLevel { get; set; }
     }
 }

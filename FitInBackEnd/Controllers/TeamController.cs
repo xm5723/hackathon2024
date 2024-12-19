@@ -39,28 +39,17 @@ namespace Hackathon2024.Controllers
         [HttpGet("FindCandidatesById/{id}")]
         public async Task<IEnumerable<AnalysisResult>> FindCandidatesById(string id)
         {
-            var candidates = new List<AnalysisResult>
-            {
-                new AnalysisResult()
-                {
-                    CandidateId = Guid.NewGuid().ToString(),
-                    TeamId = id,
-                    Score = 27
-                },
-                new AnalysisResult()
-                {
-                    CandidateId = Guid.NewGuid().ToString(),
-                    TeamId = id,
-                    Score = 24
-                },
-                new AnalysisResult()
-                {
-                    CandidateId = Guid.NewGuid().ToString(),
-                    TeamId = id,
-                    Score = 21
-                }
+            // Get the skills for this team and create TeamWithSkills.
+            var team = new TeamWithSkills() { 
+                TeamId = id,
+                Skills = await _dataLayer.GetTeamSkills(id)
             };
-            return candidates;
+
+            // Call DB to get all CandidateWithSkills
+            var candidates = await _dataLayer.GetAllCandidatesWithSkills();
+
+            // Do analysis
+            return BusinessLogic.Analyze([team], candidates);
         }
     }
 }
