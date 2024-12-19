@@ -81,7 +81,7 @@ namespace Hackathon2024
             using var conn = new SqlConnection(connString);
             conn.Open();
 
-            var command = new SqlCommand("SELECT * FROM CandidateSkill WHERE candidate_id = @Id", conn);
+            var command = new SqlCommand("SELECT CS.*, S.skill_name FROM CandidateSkill CS JOIN Skill S ON S.id = CS.skill_id WHERE CS.candidate_id = @Id", conn);
             command.Parameters.Add(new SqlParameter("@Id", SqlDbType.VarChar) { Value = candidateId });
             using SqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -93,8 +93,8 @@ namespace Hackathon2024
                     {
                         CandidateId = reader.GetString(0),
                         SkillId = reader.GetInt32(1),
-                        SkillLevel = reader.GetInt32(2)
-
+                        SkillLevel = reader.GetInt32(2),
+                        SkillName = reader.GetString(3)
                     });
                 }
             }
@@ -109,7 +109,7 @@ namespace Hackathon2024
             using var conn = new SqlConnection(connString);
             conn.Open();
 
-            var command = new SqlCommand("SELECT * FROM CandidateSkill order by candidate_id", conn);
+            var command = new SqlCommand("SELECT CS.*, S.skill_name FROM CandidateSkill CS JOIN Skill S ON S.id = CS.skill_id", conn);
             using SqlDataReader reader = await command.ExecuteReaderAsync();
 
             if (reader.HasRows)
@@ -121,8 +121,8 @@ namespace Hackathon2024
                     {
                         CandidateId = reader.GetString(0),
                         SkillId = reader.GetInt32(1),
-                        SkillLevel = reader.GetInt32(2)
-
+                        SkillLevel = reader.GetInt32(2),
+                        SkillName = reader.GetString(3)
                     });
                 }
 
