@@ -2,8 +2,9 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- Import CommonModule
 
 import { CandidateService } from '../data-service/candidate.service';
-import { Skill, Candidate } from '../interfaces/candidate';
+import { Skill, Candidate, TeamSummary } from '../interfaces/candidate';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Team } from '../interfaces/team';
 
 @Component({
   selector: 'app-candidate',
@@ -18,10 +19,10 @@ constructor(private router: Router, private route: ActivatedRoute) {}
   private candidateService = inject(CandidateService);
   profile!: Candidate;
   skills: Skill[] = [];
+  teams: TeamSummary[] = [];
   uid: any;
-  candidatesDataLoaded: boolean = false;
   skillDataLoaded: boolean = false;
-  candidateDataLoaded: boolean = false;
+  teamDataLoaded: boolean = false;
   
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -35,10 +36,10 @@ constructor(private router: Router, private route: ActivatedRoute) {}
   }
 
   loadCandidate(uid : string): void {
+    this.uid = uid;
     this.candidateService.getCandidateById(uid).subscribe((data) => {
       this.profile = data;
       console.log(this.profile);
-      this.candidateDataLoaded = true;
       this.loadCandidateSkills(uid);
     });
   }
@@ -46,7 +47,20 @@ constructor(private router: Router, private route: ActivatedRoute) {}
   loadCandidateSkills(candidateId : string): void {
     this.candidateService.getCandidateSkillsById(candidateId).subscribe((data) => {
       this.skills = data;
+        this.skills.sort((a, b) => parseInt(b.skill_level) - parseInt(a.skill_level));
       this.skillDataLoaded = true;
+    });
+  }
+
+  calculateTopTeams() {
+    this.candidateService.getTeamsById(this.uid).subscribe((data) => {
+      this.teams = data;
+      console
+      this.teamDataLoaded = true;
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
     });
   }
 

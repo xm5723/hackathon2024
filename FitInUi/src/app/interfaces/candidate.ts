@@ -4,7 +4,7 @@ export interface Candidate {
   last_name: string;
   email: string; // Unique email
   education?: string; // Optional field
-  year_of_graduation?: string; // Optional field
+  year_of_gradution?: string; // Optional field
   fun_fact?: string; // Optional field
 }
 
@@ -13,3 +13,8 @@ export interface Skill {
   skill_name: string;
   skill_level: string;
 }
+
+export interface TeamSummary {
+  teamName: string;
+  score: number;
+};

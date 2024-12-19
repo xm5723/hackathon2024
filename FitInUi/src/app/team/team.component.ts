@@ -42,6 +42,7 @@ export class TeamComponent {
   loadTeamSkills(teamId : string): void {
     this.teamService.getTeamSkillsById(teamId).subscribe((data) => {
       this.skills = data;
+      this.skills.sort((a, b) => parseInt(b.skill_level) - parseInt(a.skill_level));
     });
   }
 

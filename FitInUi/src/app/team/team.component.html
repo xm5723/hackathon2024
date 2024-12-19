@@ -16,17 +16,15 @@
   <!-- Right Side: Skills Section -->
   <div class="skills-section">
     <h2>Team Skills</h2>
-    <ul class="skills-list">
-      <li *ngFor="let skill of skills" class="skill-item">
-        <div class="skill-details">
-          <p><strong>Skill Name:</strong> {{ skill.skill_name }}</p>
-          <p><strong>Skill Utilization:</strong> {{ skill.skill_level }}/10</p>
-        </div>
-      </li>
-    </ul>
+    <div class="skills-container">
+      <div *ngFor="let skill of skills" class="skill-pill">
+        <span class="skill-name">{{ skill.skill_name }}</span>
+        <span class="divider"></span>
+        <span class="skill-level">{{ skill.skill_level }}/10</span>
+      </div>
+    </div>
     <button class="action-btn" (click)="calculateTopCandidates()">Calculate Top Candidates</button>
   </div>
-</div>
 
 <!-- Candidate Summary Section -->
 <div *ngIf="candidatesDataLoaded" class="candidate-summary">

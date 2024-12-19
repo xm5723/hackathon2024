@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Skill, Candidate } from '../interfaces/candidate';
+import { Skill, Candidate, TeamSummary } from '../interfaces/candidate';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,5 +23,10 @@ export class CandidateService {
     // Get Skills By Candidate Id
     getCandidateSkillsById(candidateId: string): Observable<Skill[]>  {
         return this.http.get<Skill[]>(`${this.apiUrl}/GetSkillsById/${candidateId}`);
+    }
+
+    // Get Teams By Id
+    getTeamsById(candidateId: string): Observable<TeamSummary[]>  {
+        return this.http.get<TeamSummary[]>(`${this.apiUrl}/FindTeamsById/${candidateId}`);
     }
 }

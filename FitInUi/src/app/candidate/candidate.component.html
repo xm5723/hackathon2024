@@ -4,7 +4,7 @@
     <h2>My Profile</h2>
     <p><strong>Name:</strong> {{ profile.first_name + ' ' + profile.last_name }}</p>
     <p><strong>Education:</strong> {{ profile.education }}</p>
-    <p><strong>Year of Graduation:</strong> {{ profile.year_of_graduation }}</p>
+    <p><strong>Year of Graduation:</strong> {{ profile.year_of_gradution }}</p>
     <p><strong>Fun Fact:</strong> {{ profile.fun_fact }}</p>
     <button class="logout-btn" (click)="gotoHome()">Log out</button>
   </div>
@@ -12,13 +12,31 @@
   <!-- Right Side: Skills Section -->
   <div class="skills-section">
     <h2>My Skills</h2>
-    <ul class="skills-list">
-      <li *ngFor="let skill of skills" class="skill-item">
-        <div class="skill-details">
-          <p><strong>Skill Name:</strong> {{ skill.skill_name }}</p>
-          <p><strong>Skill Level:</strong> {{ skill.skill_level }}/5</p>
-        </div>
-      </li>
-    </ul>
+    <div class="skills-container">
+      <div *ngFor="let skill of skills" class="skill-pill">
+        <span class="skill-name">{{ skill.skill_name }}</span>
+        <span class="divider"></span>
+        <span class="skill-level">{{ skill.skill_level }}/5</span>
+      </div>
+    </div>
+    <button class="action-btn" (click)="calculateTopTeams()">Calculate Top Teams</button>
   </div>
+
+  <!-- Team Summary Section -->
+<div *ngIf="teamDataLoaded" class="team-summary">
+  <h2>Top Team Matches</h2>
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let team of teams">
+        <td>{{ team.teamName }}</td>
+        <td>{{ team.score }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
