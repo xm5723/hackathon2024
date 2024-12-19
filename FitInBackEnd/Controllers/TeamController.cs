@@ -39,6 +39,7 @@ namespace Hackathon2024.Controllers
         [HttpGet("FindCandidatesById/{id}")]
         public async Task<IEnumerable<CandidateAnalysisSummary>> FindCandidatesById(string id, int? maxCandidates = 10)
         {
+            // Note:  I don't normally put this much logic in a contoller action, but it's a hackathon...  We're not graded!
             var summaries = new List<CandidateAnalysisSummary>();
 
             // Get the skills for this team and create TeamWithSkills.
