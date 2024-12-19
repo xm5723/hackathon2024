@@ -20,8 +20,14 @@ export const routes: Route[] = [
         redirectTo: '/login', 
         pathMatch: 'full' 
     },
-    { path: 'team', component: TeamComponent },
-    { path: 'candidate', component: CandidateComponent  }
-  ];
+    { 
+        path: 'team', 
+        component: TeamComponent 
+    },
+    { 
+        path: 'candidate', 
+        component: CandidateComponent  
+    }
+];
 
   export class AppRoutingModule{}

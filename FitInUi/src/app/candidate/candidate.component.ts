@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- Import CommonModule
+
+import { CandidateService } from '../data-service/candidate.service';
+import { Skill, Candidate } from '../interfaces/candidate';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-candidate',
@@ -9,28 +13,44 @@ import { CommonModule } from '@angular/common'; // <-- Import CommonModule
   imports: [CommonModule]
 })
 export class CandidateComponent {
-  // Candidate's profile data
-  profile = {
-    name: 'John Doe',
-    education: 'Masters at UPenn',
-    graduationYear: 2001,
-    funFact: 'Lost all my teeth in a ski accident',
-    skills: 'Not skiing',
-    interests: 'snowboarding!!',
-    role: 'Candidate'
-  };
+constructor(private router: Router, private route: ActivatedRoute) {}
+  
+  private candidateService = inject(CandidateService);
+  profile!: Candidate;
+  skills: Skill[] = [];
+  uid: any;
+  candidatesDataLoaded: boolean = false;
+  skillDataLoaded: boolean = false;
+  candidateDataLoaded: boolean = false;
+  
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.uid = params['uid'];
+    });
+    //FallBack just incase
+    if (!this.uid) {
+      this.uid = "5f73CMP9lQdRmTLugdDP6xbGhS72";
+    }
+    this.loadCandidate(this.uid);
+  }
 
-  // List of teams available
-  teams = [
-    { name: 'Team Alpha', description: 'A group of skilled developers.' },
-    { name: 'Team Beta', description: 'Creative designers focused on UI/UX.' },
-    { name: 'Team Gamma', description: 'Marketing and outreach specialists.' },
-    { name: 'Team Delta', description: 'Project management and coordination.' },
-    { name: 'Team Epsilon', description: 'Data scientists and machine learning experts.' },
-    { name: 'Team Zeta', description: 'Customer support and feedback gathering.' },
-    // Add more teams if needed
-  ];
+  loadCandidate(uid : string): void {
+    this.candidateService.getCandidateById(uid).subscribe((data) => {
+      this.profile = data;
+      console.log(this.profile);
+      this.candidateDataLoaded = true;
+      this.loadCandidateSkills(uid);
+    });
+  }
 
-  // Set the selected team by default (first team)
-  selectedTeam = this.teams[0];
+  loadCandidateSkills(candidateId : string): void {
+    this.candidateService.getCandidateSkillsById(candidateId).subscribe((data) => {
+      this.skills = data;
+      this.skillDataLoaded = true;
+    });
+  }
+
+  gotoHome() {
+    this.router.navigate(['']);
+  }
 }

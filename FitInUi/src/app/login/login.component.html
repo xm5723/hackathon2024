@@ -1,14 +1,12 @@
 <div>
-  <h2>Welcome to Fit In!</h2>
-  <h3>Login Below to get started</h3>
-
   <!-- Display error message -->
-  <div *ngIf="errorMessage" style="color: red;">
+  <!-- <div *ngIf="errorMessage" style="color: red;">
     <p>{{ errorMessage }}</p>
-  </div>
+  </div> -->
 
   <!-- Reactive form -->
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <h2 class="text-center">Login below to get started</h2>
     <!-- Email input -->
     <input
       type="email"

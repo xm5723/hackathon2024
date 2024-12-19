@@ -1,42 +1,57 @@
-<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input
-      type="email"
-      id="email"
-      formControlName="email"
-      class="form-control"
-      placeholder="Enter your email"
-    />
-    <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-danger">
-      <small *ngIf="signupForm.get('email')?.errors?.['required']">Email is required.</small>
-      <small *ngIf="signupForm.get('email')?.errors?.['email']">Please enter a valid email.</small>
-    </div>
-  </div>
+<div class="container">
+  <div class="signup-form">
+    <h2 class="text-center">Create an Account</h2>
 
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      id="password"
-      formControlName="password"
-      class="form-control"
-      placeholder="Enter your password"
-    />
-    <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">
-      <small *ngIf="signupForm.get('password')?.errors?.['required']">Password is required.</small>
-      <small *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</small>
-    </div>
-  </div>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          placeholder="Enter your email"
+        />
+        <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-danger">
+          <p *ngIf="signupForm.get('email')?.errors?.['required']">Email is required.</p>
+          <p *ngIf="signupForm.get('email')?.errors?.['email']">Please enter a valid email.</p>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Sign Up</button>
-  </div>
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="password-field">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="Enter your password"
+          />
+          <span
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            [title]="passwordVisible ? 'Hide password' : 'Show password'"
+          >
+            {{ passwordVisible ? '😳' : '😑' }}
+          </span>
+        </div>
+        <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">
+          <small *ngIf="signupForm.get('password')?.errors?.['required']">Password is required.</small>
+          <small *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</small>
+        </div>
+      </div>
 
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Sign Up</button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+    </form>
   </div>
-  <div *ngIf="successMessage" class="alert alert-success">
-    {{ successMessage }}
-  </div>
-</form>
+</div>

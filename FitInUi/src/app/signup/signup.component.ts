@@ -1,11 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AuthService } from './../auth/auth.service'; 
-// import { firebaseConfig } from './../login/firebase-config';
-// import { AngularFireModule } from '@angular/fire/compat'
-// import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -26,18 +24,25 @@ export class SignupComponent {
 
   successMessage: string = '';
   errorMessage: string = '';
+  passwordVisible: boolean = false;
 
 
-  constructor() {}
+  constructor(private router: Router) {}
 
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+  
   onSubmit() {
     if (this.signupForm.valid) {
       const { email, password } = this.signupForm.value;
       this.authService.signUp(email ?? "", password ?? "")
         .then(response => {
-          this.successMessage = 'Signup successful!';
+          this.successMessage = 'Signup successful!\nRedirecting to Login...';
           this.errorMessage = '';
-          // navigate to main page
+          setTimeout(() => {
+            this.router.navigate(['/login']); // Adjust the route if necessary
+          }, 2000); // Wait for 2 seconds before redirecting
         })
         .catch(error => {
           this.errorMessage = error.message;

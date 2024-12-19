@@ -1,35 +1,24 @@
 <div class="layout-container">
-    <!-- Left side: Profile Information -->
-    <div class="profile-section">
-      <h2>My Profile</h2>
-      <p>Name: {{ profile.name }}</p>
-      <p>Education: {{ profile.education }}</p>
-      <p>Year of Graduation: {{ profile.graduationYear }}</p>
-      <p>Fun Fact: {{ profile.funFact }}</p>
-      <p>Skills: {{ profile.skills }}</p>
-      <p>Interests: {{ profile.interests }}</p>
-      <p>Role: {{ profile.role }}</p>
-    </div>
-  
-    <!-- Right side: Teams List and Details -->
-    <div class="teams-section">
-      <h2>Available Teams</h2>
-  
-      <!-- Scrollable team list -->
-      <div class="teams-list">
-        <ul>
-          <!-- Display all teams -->
-          <li *ngFor="let team of teams" (click)="selectedTeam = team" [class.selected]="team === selectedTeam">
-            {{ team.name }}
-          </li>
-        </ul>
-      </div>
-  
-      <!-- Display details of the selected team -->
-      <div class="team-details">
-        <h3>{{ selectedTeam.name }}</h3>
-        <p>{{ selectedTeam.description }}</p>
-      </div>
-    </div>
+  <!-- Left Side: Profile Information -->
+  <div class="profile-section">
+    <h2>My Profile</h2>
+    <p><strong>Name:</strong> {{ profile.first_name + ' ' + profile.last_name }}</p>
+    <p><strong>Education:</strong> {{ profile.education }}</p>
+    <p><strong>Year of Graduation:</strong> {{ profile.year_of_graduation }}</p>
+    <p><strong>Fun Fact:</strong> {{ profile.fun_fact }}</p>
+    <button class="logout-btn" (click)="gotoHome()">Log out</button>
   </div>
-  
+
+  <!-- Right Side: Skills Section -->
+  <div class="skills-section">
+    <h2>My Skills</h2>
+    <ul class="skills-list">
+      <li *ngFor="let skill of skills" class="skill-item">
+        <div class="skill-details">
+          <p><strong>Skill Name:</strong> {{ skill.skill_name }}</p>
+          <p><strong>Skill Level:</strong> {{ skill.skill_level }}/5</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

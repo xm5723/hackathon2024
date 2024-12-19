@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { initializeApp } from 'firebase/app';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { firebaseConfig } from './firebase-config';
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -23,8 +23,7 @@ export class AuthService {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  private apiUrl = 'http://localhost:5185/Candidate/GetAllProfiles';
-  getUidData(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  determineProfileType(uid: string) {
+    return firstValueFrom(this.http.get<string>(`http://localhost:5185/Admin/GetProfileTypeById/${uid}`, { responseType: 'text' as 'json' }));
   }
 }

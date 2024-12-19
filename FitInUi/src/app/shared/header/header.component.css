@@ -1,0 +1,29 @@
+.app-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .header-slogan {
+    font-size: 1.2rem;
+    margin: 5px 0 0 0;
+    font-family: 'Arial', sans-serif;
+    font-style: italic;
+  }
+  
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  

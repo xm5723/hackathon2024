@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // <-- Import CommonModule
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TeamService } from '../data-service/team.service';
+import { CandidateSummary, Skill, Team } from '../interfaces/team';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -10,26 +13,50 @@ import { CommonModule } from '@angular/common'; // <-- Import CommonModule
   imports: [CommonModule]
 })
 export class TeamComponent {
-  // Team's profile data
-  teamProfile = {
-    name: 'Team Alpha',
-    description: 'A group of skilled developers.',
-    createdYear: 2015,
-    specialization: 'Software Development',
-    manager: 'Alice Johnson'
-  };
+  constructor(private router: Router, private route: ActivatedRoute) {}
+  
+  private teamService = inject(TeamService);
+  team!: Team;
+  candidates: CandidateSummary[] = [];
+  skills: Skill[] = [];
+  uid: any;
+  candidatesDataLoaded: boolean = false;
+  
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.uid = params['uid'];
+    });
+    if (!this.uid) {
+      this.uid = "lfHZQ8gEAAQNBP0VddJ9YQ79x6A3";
+    }
+    this.loadTeam(this.uid);
+  }
 
-  // List of candidates available
-  candidates = [
-    { name: 'Jane Smith', role: 'Candidate', skills: 'JavaScript, Angular' },
-    { name: 'Alice Johnson', role: 'Candidate', skills: 'Python, Django' },
-    { name: 'Bob Brown', role: 'Candidate', skills: 'Java, Spring Boot' },
-    { name: 'Charlie Davis', role: 'Candidate', skills: 'React, Node.js' },
-    { name: 'Eva White', role: 'Candidate', skills: 'SQL, PostgreSQL' },
-    { name: 'John Doe', role: 'Candidate', skills: 'C#, .NET' },
-    // Add more candidates if needed
-  ];
+  loadTeam(uid : string): void {
+    this.teamService.getTeamById(uid).subscribe((data) => {
+      this.team = data;
+      this.loadTeamSkills(this.team.id.toString());
+    });
+  }
 
-  // Set the selected candidate by default (first candidate)
-  selectedCandidate = this.candidates[0];
+  loadTeamSkills(teamId : string): void {
+    this.teamService.getTeamSkillsById(teamId).subscribe((data) => {
+      this.skills = data;
+    });
+  }
+
+  calculateTopCandidates() {
+    this.teamService.getCandidatesById(this.team.id.toString()).subscribe((data) => {
+      this.candidates = data;
+      this.candidatesDataLoaded = true;
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+  }
+    
+  gotoHome() {
+    this.router.navigate(['']);
+  }
 }

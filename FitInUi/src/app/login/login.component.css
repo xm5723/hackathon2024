@@ -59,17 +59,6 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-signup-button{
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
 /* Hover effect for the button */
 button:hover {
@@ -80,6 +69,18 @@ button:hover {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+signup-button{
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 /* Error message styling */

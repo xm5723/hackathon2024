@@ -25,21 +25,7 @@ export class LoginComponent {
   data: any;
   error: boolean | undefined;
 
-  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService) {
-    // Create a reactive form with email and password controls
-    this.authService.getUidData().subscribe(
-      (response) => {
-        console.log('Received data:', response);
-        this.data = response; // Store the received data
-        this.error = false; // Reset any error state
-        console.log(this.error);
-      },
-      (error) => {
-        console.error('Error:', error);
-        this.error = true; // Set the error flag to true in case of failure
-        console.log(this.error);
-      }
-    );
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthService) {;
     
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -63,11 +49,8 @@ export class LoginComponent {
         (response: any) => {
           console.log('Login successful', response);
           this.errorMessage = "";
-          // Handle successful login (e.g., store token, navigate to dashboard)
-
-          // Navigate to the Team Page after successful login
-          this.router.navigate(['/team']);
-        },
+          this.determinePage(response.user.auth.currentUser.uid);
+          },
         (error : any) => {
           console.error('Login failed', error);
           this.errorMessage = error.messagingSenderId;
@@ -75,6 +58,27 @@ export class LoginComponent {
       );
     }
   }
+  determinePage(uid: string) {
+    if (uid) {
+      // Navigate to the next route with the UID as a parameter
+      this.authService.determineProfileType(uid).then(
+        (response: any) => {
+          this.errorMessage = "";
+          if(response == "Candidate") {
+            this.router.navigate(['/candidate'], { queryParams: { uid: uid } });
+            // this.router.navigate(['/candidate'], { state: { uid } });
+          }else{
+            this.router.navigate(['/team'], { queryParams: { uid: uid } });
+            // this.router.navigate(['/team'], { state: { uid } });   
+          }
+        },
+        (error : any) => {
+          console.error('Unable to determine Profile Type', error);
+          this.errorMessage = error.messagingSenderId;
+        }
+      );      
+    }
+}
   
   goToSignup() {
     this.router.navigate(['/signup']);
