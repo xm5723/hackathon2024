@@ -79,7 +79,7 @@ namespace Hackathon2024
 
                 summaries.Add(new TeamAnalysisSummary()
                 {
-                    TeamName = team.TeamName,
+                    TeamName = team?.TeamName,
                     TeamId = result.Team.TeamId,
                     Score = result.Score
                 });
